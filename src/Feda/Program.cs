@@ -8,7 +8,21 @@
         {
             Console.WriteLine("Feda!");
 
-            Board.PrintBoard(Board.WhitePawnAttacks[(int)Square.E4]);
+            var b = 0UL;
+
+            for (var rank = 0; rank < 8; rank++)
+            {
+                for (var file = 0; file < 8; file++)
+                {
+                    var square = (rank * 8) + file;
+                    if (file < 6)
+                    {
+                        Bit.SetBit(ref b, square);
+                    }
+                }
+            }
+
+            Board.PrintBoard(b);
         }
     }
 }

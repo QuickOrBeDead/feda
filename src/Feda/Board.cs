@@ -5,10 +5,15 @@
     public sealed class Board
     {
         public static readonly ulong NotAFileBitBoard = 18374403900871474942UL;
+        public static readonly ulong NotABFileBitBoard = 18229723555195321596UL;
         public static readonly ulong NotHFileBitBoard = 9187201950435737471UL;
+        public static readonly ulong NotHGFileBitBoard = 4557430888798830399UL;
 
         public static readonly ulong[] WhitePawnAttacks = GenerateWhitePawnAttacks();
         public static readonly ulong[] BlackPawnAttacks = GenerateBlackPawnAttacks();
+        
+        public static readonly ulong[] KnightAttacks = GenerateKnightAttacks();
+        public static readonly ulong[] KingAttacks = GenerateKingAttacks();
 
         public static void PrintBoard(ulong bitBoard)
         {
@@ -79,6 +84,136 @@
                 if ((southEastMask & NotAFileBitBoard) != 0)
                 {
                     attacks |= southEastMask;
+                }
+
+                attacksArray[(int)square] = attacks;
+            }
+
+            return attacksArray;
+        }
+
+        private static ulong[] GenerateKnightAttacks()
+        {
+            var attacksArray = new ulong[64];
+
+            for (var square = Square.A8; square < Square.Illegal; square++)
+            {
+                var attacks = 0UL;
+                var bitBoard = 0UL;
+
+                Bit.SetBit(ref bitBoard, square);
+
+                var mask = bitBoard >> 17;
+                if ((mask & NotHFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 15;
+                if ((mask & NotAFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 10;
+                if ((mask & NotHGFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 6;
+                if ((mask & NotABFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 17;
+                if ((mask & NotAFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 15;
+                if ((mask & NotHFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 10;
+                if ((mask & NotABFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 6;
+                if ((mask & NotHGFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                attacksArray[(int)square] = attacks;
+            }
+
+            return attacksArray;
+        }
+
+        private static ulong[] GenerateKingAttacks()
+        {
+            var attacksArray = new ulong[64];
+
+            for (var square = Square.A8; square < Square.Illegal; square++)
+            {
+                var attacks = 0UL;
+                var bitBoard = 0UL;
+
+                Bit.SetBit(ref bitBoard, square);
+
+                var mask = bitBoard >> 8;
+                if (mask != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 9;
+                if ((mask & NotHFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 7;
+                if ((mask & NotAFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard >> 1;
+                if ((mask & NotHFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 8;
+                if (mask != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 9;
+                if ((mask & NotAFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 7;
+                if ((mask & NotHFileBitBoard) != 0)
+                {
+                    attacks |= mask;
+                }
+
+                mask = bitBoard << 1;
+                if ((mask & NotAFileBitBoard) != 0)
+                {
+                    attacks |= mask;
                 }
 
                 attacksArray[(int)square] = attacks;
