@@ -16,6 +16,7 @@
         public static readonly ulong[] KingAttacks = GenerateKingAttacks();
 
         public static readonly ulong[] BishopAttacks = GenerateBishopAttacks();
+        public static readonly ulong[] RookAttacks = GenerateRookAttacks();
 
 
         public static void PrintBoard(ulong bitBoard)
@@ -257,6 +258,46 @@
                 for (int r = rank - 1, f = file + 1; r > 0 && f < 7; r--, f++)
                 {
                     attacks |= 1UL << Coordinates.GetSquareNumber(r, f);
+                }
+
+                attacksArray[(int)square] = attacks;
+            }
+
+            return attacksArray;
+        }
+
+        private static ulong[] GenerateRookAttacks()
+        {
+            var attacksArray = new ulong[64];
+
+            for (var square = Square.A8; square < Square.Illegal; square++)
+            {
+                var attacks = 0UL;
+                var bitBoard = 0UL;
+
+                Bit.SetBit(ref bitBoard, square);
+
+                var rank = Coordinates.GetRank(square);
+                var file = Coordinates.GetFile(square);
+
+                for (var r = rank + 1; r < 7; r++)
+                {
+                    attacks |= 1UL << Coordinates.GetSquareNumber(r, file);
+                }
+
+                for (var r = rank - 1; r > 0; r--)
+                {
+                    attacks |= 1UL << Coordinates.GetSquareNumber(r, file);
+                }
+
+                for (var f = file + 1; f < 7; f++)
+                {
+                    attacks |= 1UL << Coordinates.GetSquareNumber(rank, f);
+                }
+
+                for (var f = file - 1; f > 0; f--)
+                {
+                    attacks |= 1UL << Coordinates.GetSquareNumber(rank, f);
                 }
 
                 attacksArray[(int)square] = attacks;

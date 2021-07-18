@@ -8,7 +8,7 @@
         {
             Console.WriteLine("Feda!");
 
-            Board.PrintBoard(0UL);
+            Board.PrintBoard(Board.RookAttacks[(int)Square.A8]);
         }
     }
 }
