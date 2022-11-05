@@ -1,14 +1,13 @@
-﻿namespace Feda
+﻿namespace Feda;
+
+using System;
+
+public static class Program
 {
-    using System;
-
-    public static class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Feda!");
+        Console.WriteLine("Feda!");
 
-            Board.PrintBoard(Board.RookAttacks[(int)Square.A8]);
-        }
+        Board.PrintBoard(Board.RookAttacks[(int)Square.A8]);
     }
 }
